@@ -1,0 +1,22 @@
+serverFiles:
+  alerting_rules.yml:
+    groups:
+      - name: kubernetes-pod-alerts
+        rules:
+          - alert: PodNotRunning
+            expr: |
+              kube_pod_status_phase{phase="Running"} == 0 and on(pod) kube_pod_status_phase{phase="Pending"} == 0
+            for: 5m
+            labels:
+              severity: warning
+            annotations:
+              summary: "Pod {{ $labels.pod }} is not running for more than 5 minutes"
+              description: "The pod {{ $labels.pod }} in namespace {{ $labels.namespace }} has been in a non-running state for longer than 5 minutes."
+          - alert: PodIsUp
+            annotations:
+              description: The pod {{ $labels.pod }} in namespace {{ $labels.namespace }} is up and running.
+              summary: Pod {{ $labels.pod }} is up.
+            expr: up{job="kubelet", kubernetes_namespace="devops-project-prod", kubernetes_pod_name=~".+"} == 1
+            for: 10s 
+            labels:
+              severity: info

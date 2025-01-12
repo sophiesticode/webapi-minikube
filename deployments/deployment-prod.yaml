@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapi-deployment-prod
+  namespace: devops-project-prod
+  labels:
+    environment: production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapi
+  template:
+    metadata:
+      labels:
+        app: webapi
+        environment: production
+    spec:
+      containers:
+      - name: webapi
+        image: webapi:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapi-service-prod
+  namespace: devops-project-prod
+  labels:
+    environment: production
+spec:
+  selector:
+    app: webapi
+    environment: production
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: ClusterIP

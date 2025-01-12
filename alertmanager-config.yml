@@ -1,0 +1,24 @@
+serverFiles:
+  alertmanager.yml:
+    global:
+      smtp_smarthost: 'smtp.gmail.com:587'
+      smtp_from: 'teamdev829@gmail.com'
+      smtp_auth_username: 'teamdev829'
+      smtp_auth_password: 'aliExpress2024'
+      smtp_hello: 'smtp.gmail.com'
+      smtp_require_tls: true
+    route:
+      receiver: 'email-alert'
+      group_by: ['PodIsUp']
+    receivers:
+      - name: 'email-alert'
+        email_configs:
+          - to: 'lazhar.hamel@efrei.fr'
+            send_resolved: true
+            headers:
+              Subject: 'Prometheus alert / Team15: Victor S. and Sophie M.'
+            text: |
+              Alert: {{ .CommonLabels.alertname }}
+              Severity: {{ .CommonLabels.severity }}
+              Description: {{ .CommonAnnotations.description }}
+
