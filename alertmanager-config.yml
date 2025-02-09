@@ -1,10 +1,10 @@
 serverFiles:
   alertmanager.yml:
     global:
-      smtp_smarthost: 'smtp.gmail.com:587'
-      smtp_from: 'teamdev829@gmail.com'
-      smtp_auth_username: 'teamdev829'
-      smtp_auth_password: 'aliExpress2024'
+      smtp_smarthost: '***'
+      smtp_from: '***'
+      smtp_auth_username: '***'
+      smtp_auth_password: '***'
       smtp_hello: 'smtp.gmail.com'
       smtp_require_tls: true
     route:
@@ -16,7 +16,7 @@ serverFiles:
           - to: 'lazhar.hamel@efrei.fr'
             send_resolved: true
             headers:
-              Subject: 'Prometheus alert / Team15: Victor S. and Sophie M.'
+              Subject: 'Prometheus alert'
             text: |
               Alert: {{ .CommonLabels.alertname }}
               Severity: {{ .CommonLabels.severity }}
